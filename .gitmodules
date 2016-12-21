@@ -10,3 +10,6 @@
 [submodule "riscv-newlib"]
 	path = riscv-newlib
 	url = ../../riscv/riscv-newlib.git
+[submodule "riscv-binutils-gdb"]
+	path = riscv-binutils-gdb
+	url = https://github.com/comododragon/riscv-binutils-gdb.git
