@@ -32,7 +32,7 @@ This project holds the original licence from the original project (see LICENSE f
 	$ sudo apt-get install autoconf automake autotools-dev curl libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc
 	```
 
-3. In order to compile files to the RV32IXvec architecture from VScale, compile for 32-bit:
+3. In order to compile files to the RV32IXvec architecture of VScale, compile for 32-bit:
 
 	```
 	./configure --prefix=/path/to/install --with-arch=rv32g --with-abi=ilp32d
