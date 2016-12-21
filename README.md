@@ -1,110 +1,47 @@
-RISC-V GNU Compiler Toolchain
-=============================
+# RISC-V GNU Compiler Toolchain with Xvec Extension Support
 
-This is the RISC-V C and C++ cross-compiler. It supports two build modes:
-a generic ELF/Newlib toolchain and a more sophisticated Linux-ELF/glibc
-toolchain.
+## Author
 
-###  Getting the sources
+* André Bannwart Perina
+* Guilherme Bileki
 
-This repository uses submodules. You need the --recursive option to fetch the submodules automatically
+## Introduction
 
-    $ git clone --recursive https://github.com/riscv/riscv-gnu-toolchain
-    
-Alternatively :
+This is a fork from riscv-llvm project (https://github.com/riscv/riscv-gnu-toolchain), with
+support to Xvec instructions. This means that the GNU assembler and linker will recognise
+assembly files (.s) with instructions such as ```addv```, ```subv```, etc. An implementation
+of an Xvec-enabled RISC-V processor is available at https://github.com/comododragon/vscale.
 
-    $ git clone https://github.com/riscv/riscv-gnu-toolchain
-    $ cd riscv-gnu-toolchain
-    $ git submodule update --init --recursive
-    
-    
+## Licence
 
-### Prerequisites
+This project holds the original licence from the original project (see LICENSE file).
 
-Several standard packages are needed to build the toolchain.  On Ubuntu,
-executing the following command should suffice:
+## Installation
 
-    $ sudo apt-get install autoconf automake autotools-dev curl libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc
+1. Get the repositories:
 
-On Fedora/CentOS/RHEL OS, executing the following command should suffice:
+	```
+	$ git clone https://github.com/riscv/riscv-gnu-toolchain
+	$ cd riscv-gnu-toolchain
+	$ git submodule update --init --recursive
+	```
 
-    $ sudo yum install autoconf automake libmpc-devel mpfr-devel gmp-devel gawk  bison flex texinfo patchutils gcc gcc-c++
+2. Install needed packages. For example, in Ubuntu:
 
-On OS X, you can use [Homebrew](http://brew.sh) to install the dependencies:
+	```
+	$ sudo apt-get install autoconf automake autotools-dev curl libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc
+	```
 
-    $ brew install gawk gnu-sed gmp mpfr libmpc isl
+3. In order to compile files to the RV32IXvec architecture from VScale, compile for 32-bit:
 
-To build the glibc (Linux) on OS X, you will need to build within a case-sensitive file
-system.  The simplest approach is to create and mount a new disk image with
-a case sensitive format.  Make sure that the mount point does not contain spaces. This is not necessary to build newlib or gcc itself on OS X.
+	```
+	./configure --prefix=/path/to/install --with-arch=rv32g --with-abi=ilp32d
+	make linux
+	```
 
-This process will start by downloading about 200 MiB of upstream sources, then
-will patch, build, and install the toolchain.  If a local cache of the
-upstream sources exists in $(DISTDIR), it will be used; the default location
-is /var/cache/distfiles.  Your computer will need about 8 GiB of disk space to
-complete the process.
+	Where ```/path/to/install``` is your desired installation folder.
 
-### Installation (Newlib)
+4. After compilation, 32-bit GNU binaries will have the ```riscv32-unknown-linux-gnu-``` prefix.
 
-To build the Newlib cross-compiler, pick an install path.  If you choose,
-say, `/opt/riscv`, then add `/opt/riscv/bin` to your `PATH` now.  Then, simply
-run the following command:
-
-    ./configure --prefix=/opt/riscv
-    make
-
-You should now be able to use riscv-gcc and its cousins.
-
-### Installation (Linux)
-
-To build the Linux cross-compiler, pick an install path.  If you choose,
-say, `/opt/riscv`, then add `/opt/riscv/bin` to your `PATH` now.  Then, simply
-run the following command:
-
-    ./configure --prefix=/opt/riscv
-    make linux
-
-The build defaults to targetting RV64G (64-bit), even on a 32-bit build
-environment.  To build the 32-bit RV32G toolchain, use:
-
-    ./configure --prefix=/opt/riscv --with-arch=rv32g --with-abi=ilp32d
-    make linux
-
-Supported architectures are rv32i or rv64i plus standard extensions (a)tomics,
-(m)ultiplication and division, (f)loat, (d)ouble, or (g)eneral for MAFD.
-
-Supported ABIs are ilp32 (32-bit soft-float), ilp32d (32-bit hard-float),
-ilp32f (32-bit with single-precision in registers and double in memory, niche
-use only), lp64 lp64f lp64d (same but with 64-bit long and pointers).
-
-### Installation (Linux multilib)
-
-To build the Linux cross-compiler with support for both 32-bit and
-64-bit, run the following commands:
-
-    ./configure --prefix=/opt/riscv --enable-multilib
-    make linux
-
-The multilib compiler will have the prefix riscv-unknown-linux-gnu-,
-rather than the usual prefix (riscv32-... or riscv64-...).
-
-### Advanced Options
-
-There are a number of additional options that may be passed to
-configure.  See './configure --help' for more details.
-
-### Test Suite
-
-The DejaGnu test suite has been ported to RISC-V.  This can run with GDB
-simulator for elf toolchain or Qemu for linux toolchain, and GDB simulator
-doesn't support floating-point.
-To test GCC, run the following commands:
-
-    ./configure --prefix=$RISCV --disable-linux --with-arch=rv64ima # or --with-arch=rv32ima
-    make newlib
-    make check-gcc-newlib
-
-    ./configure --prefix=$RISCV
-    make linux
-    # Need qemu-riscv32 or qemu-riscv64 in your `PATH`.
-    make check-gcc-linux
+Refer to the original repository documentation for further instructions on how to compile and use.
+The original ```README.md``` for this repository is available as ```README.orig.md```.
