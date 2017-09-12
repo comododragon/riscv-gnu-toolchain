@@ -21,7 +21,7 @@ This project holds the original licence from the original project (see LICENSE f
 1. Get the repositories:
 
 	```
-	$ git clone https://github.com/riscv/riscv-gnu-toolchain
+	$ git clone https://github.com/comododragon/riscv-gnu-toolchain
 	$ cd riscv-gnu-toolchain
 	$ git submodule update --init --recursive
 	```
